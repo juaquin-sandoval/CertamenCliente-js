@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>CertamenCliente-JS</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/Bootstrap-DataTables.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/css/styles.css">
+
+</head>
+
+<body>
+    <header>
+        <div class="container-fluid bg-primary mb-5">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="text-center text-white mt-5 mb-5">Certamen N°3 Juaquin Sandoval</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <div class="container">
+
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <p class="text-primary m-0 font-weight-bold h4">Listado de Clientes</p>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 text-nowrap">
+                        <button class="btn btn-primary mb-2" id="btnNuevo">Nuevo</button> </div>
+                    <div class="col-md-6">
+                        <div class="text-md-right dataTables_filter" id="dataTable_filter"><label><input type="search" id="RutB" class="form-control form-control-sm rutB" aria-controls="dataTable" placeholder="Search" maxlength="12"><button class="btn btn-success mt-2" id="btnBuscar">Buscar</button></label></div>
+                    </div>
+                </div>
+                <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info" style="height: 400px;">
+                    <table class="table my-0 buscar" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>Rut</th>
+                                <th>Nombre</th>
+                                <th>Mail</th>
+                                <th>Dirección</th>
+                                <th>Celular</th>
+                                <th>Estado Civil</th>
+                                <th>Fecha de Nacimiento</th>
+                                <th>Contraseña</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listaCliente">
+
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <!--Modal Para el ingreso de la información-->
+
+    <div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title ">Nuevo Cliente</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <form id="formCliente" class="needs-validation" novalidate method="POST">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="Rut" class="col-form-label">Rut:</label>
+                            <input type="text" class="form-control Rut" id="Rut" maxlength="12" required>
+                            <div class="valid-feedback" id="valRut">¡Ok válido!</div>
+                            <div class="invalid-feedback" id="invRut">Complete el campo.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Nombre" class="col-form-label">Nombre:</label>
+                            <input type="text" class="form-control" id="Nombre" maxlength="150" required>
+                            <div class="valid-feedback" id="valNombre">¡Ok válido!</div>
+                            <div class="invalid-feedback" id="invNombre">Complete el campo.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Mail" class="col-form-label">Mail:</label>
+                            <input type="email" class="form-control" id="Mail" maxlength="150" required>
+                            <div class="valid-feedback" id="valMail">¡Ok válido!</div>
+                            <div class="invalid-feedback" id="invMail">Complete el campo.</div>
+                            <div class="invalid-feedback" id="invMail2">El mail ingresado no es valido</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Direccion" class="col-form-label">Dirección:</label>
+                            <input type="text" class="form-control" id="Direccion" maxlength="150" required>
+                            <div class="valid-feedback" id="valDirec">¡Ok válido!</div>
+                            <div class="invalid-feedback" id="invDirec">Complete el campo.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Celular" class="col-form-label">Celular:</label>
+                            <input type="text" class="form-control" id="Celular" maxlength="12" pattern="/^(\+?56)?(\s?)(0?9)(\s?)[9876543]\d{7}$/" required>
+                            <div class="valid-feedback" id="valCel">¡Ok válido!</div>
+                            <div class="invalid-feedback" id="invCel">Complete el campo.</div>
+                            <div class="invalid-feedback" id="invCel2">Teléfono no válido</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Estado">Estado Civil:</label>
+                            <select class="form-control" id="Estado" required>
+                                <option selected></option>
+                              <option value="Soltero(a)">Soltero(a)</option>
+                              <option value="Casado(a)">Casado(a)</option>
+                              <option value="Divorciado(a)">Divorciado(a)</option>
+                            </select>
+                            <div class="valid-feedback" id="valEstado">¡Ok válido!</div>
+                            <div class="invalid-feedback" id="invEstado">Complete el campo.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Fecha" class="col-form-label">Fecha:</label>
+                            <input type="date" class="form-control" id="Fecha" required>
+                            <div class="valid-feedback" id="valFecha">¡Ok válido!</div>
+                            <div class="invalid-feedback" id="invFecha">Complete el campo.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="Clave">Contraseña:</label>
+                            <input type="password" class="form-control" id="Clave" required>
+                            <div class="valid-feedback" id="valClave">¡Ok válido!</div>
+                            <div class="invalid-feedback" id="invClave">Complete el campo.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="Clave2">Repetir Contraseña:</label>
+                            <input type="password" class="form-control" id="Clave2" required>
+                            <div class="valid-feedback" id="valC2">¡Ok válido!</div>
+                            <div class="invalid-feedback" id="invC2">Complete los campos</div>
+                            <div class="invalid-feedback" id="invCI2">Las Claves no coinciden!</div>
+                        </div>
+
+
+                    </div>
+                    <div id="respuesta"></div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" id="btnGuardar" class="btn btn-primary">Guardar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script src="assets/js/Bootstrap-DataTables.js"></script>
+    <script src="rut.js"></script>
+    <script src="rutB.js"></script>
+    <script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
+
+
+
+
+
+    <script>
+        $(document).ready(function() {
+            $('.Rut').rut();
+            getCliente();
+            //buscarTR();
+            $('#RutB').rutB();
+
+        });
+
+        function validarTelefono(parametro) {
+            var patron = /^(\+?56)?(\s?)(0?9)(\s?)[9876543]\d{7}$/;
+            if (!patron.test(parametro)) {
+                return false;
+
+            } else {
+                return true;
+            }
+        }
+
+        $("#formCliente").submit(function(e) {
+            e.preventDefault();
+
+            var Rut = $("#Rut").val();
+            var Nombre = $("#Nombre").val();
+            var Mail = $("#Mail").val();
+            var Direccion = $("#Direccion").val();
+            var Celular = $("#Celular").val();
+            var Estado = $("#Estado").val();
+            var Fecha_nac = $("#Fecha").val();
+            var Clave = $("#Clave").val();
+            var Clave2 = $("#Clave2").val();
+            var expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+
+
+            //Validación de input vacios
+
+            if (Rut == '') {
+                $("#invC2").show();
+                $("#Rut").focus();
+                return false;
+            } else if (Nombre == '') {
+                $("#invNombre").show();
+                $("#Nombre").focus();
+                return false;
+            } else if (Mail == '') {
+                $("#invMail").show();
+                $("#invMail2").hide();
+                $("#Mail").focus();
+                return false;
+            } else if (!expr.test(Mail)) {
+                $("#invMail").hide();
+                $("#invMail2").show();
+                $("#Mail").focus();
+                return false;
+
+            } else if (Direccion == '') {
+                $("#invDirec").show();
+                $("#Direccion").focus();
+                return false;
+
+            } else if (Celular == '') {
+                $("#invCel").show();
+                $("#Celular").focus();
+                return false;
+
+            } else if (validarTelefono(Celular) == false) {
+                $("#invCel2").show();
+                $("#Celular").focus();
+                return false;
+
+            } else if (Estado == '') {
+                $("#invEstado").show();
+                $("#Estado").focus();
+                return false;
+
+            } else if (Fecha_nac == '') {
+                $("#invFecha").show();
+                $("#Fecha").focus();
+                return false;
+
+            } else if (Clave == '') {
+                $("#invClave").show();
+                $("#Clave").focus();
+                return false;
+
+            } else if (Clave2 == '') {
+                $("#invC2").show();
+                $("#Clave2").focus();
+                return false;
+
+            } else if (Clave != Clave2) {
+                $("#invCI2").show();
+                $("#Clave2").focus();
+                return false;
+            }
+
+
+
+            $.ajax({
+                url: 'http://localhost:64618/api/cliente',
+                method: "POST",
+                data: {
+                    "rut": Rut,
+                    "nombre": Nombre,
+                    "mail": Mail,
+                    "direccion": Direccion,
+                    "celular": Celular,
+                    "estado": Estado,
+                    "fecha_nac": Fecha_nac,
+                    "clave": Clave
+                },
+                success: function(response) {
+                    $("#miModal").modal('hide');
+                    $("#formCliente").trigger('reset');
+                    alert("Datos ingresados Correctamente!!!");
+                    getCliente();
+
+                },
+                error: function(xhr, status) {
+                    alert("Datos no guardados");
+                    console.log('falló la solicitud');
+                }
+            })
+        });
+
+
+
+
+        $("#btnBuscar").click(function() {
+            var Rut = document.getElementById("RutB").value;
+            BuscarCliente();
+
+
+
+        });
+
+        $("#btnNuevo").click(function() {
+            $("#miModal").modal("show");
+        });
+
+        function buscarTR() {
+            $('#RutB').keyup(function() {
+
+                var rex = new RegExp($(this).val(), 'i');
+
+                $('.buscar tr').hide();
+
+                $('.buscar tr').filter(function() {
+                    return rex.test($(this).text());
+
+                }).show();
+
+            })
+        }
+
+        function actualizarR() {
+            $('#RutB').keyup(function() {
+
+                var rex = new RegExp($(this).val(), 'i');
+
+
+
+                $('.buscar tr').filter(function() {
+                    return rex.test($(this).text());
+
+                }).show();
+
+            })
+        }
+
+        function insertarCliente() {
+            var Rut = $("#Rut").val();
+            var Nombre = $("#Nombre").val();
+            var Mail = $("#Mail").val();
+            var Direccion = $("#Direccion").val();
+            var Celular = $("#Celular").val();
+            var Estado = $("#Estado").val();
+            var Fecha_nac = $("#Fecha").val();
+            var Clave = $("#Clave").val();
+
+
+            $.ajax({
+                url: 'http://localhost:64618/api/cliente',
+                type: 'POST',
+                data: {
+                    "rut": Rut,
+                    "nombre": Nombre,
+                    "mail": Mail,
+                    "direccion": Direccion,
+                    "celular": Celular,
+                    "estado_civil": Estado,
+                    "fecha_nac": Fecha_nac,
+                    "clave": Clave
+                },
+                success: function(response) {
+                    if (response == 1) {
+                        alert("Registro exitoso");
+                    } else {
+                        alert("Registro no relizado");
+                    }
+
+
+
+                },
+                error: function(xhr, status) {
+                    console.log('fallo la solicitud');
+                }
+            })
+        }
+
+
+        function getCliente() {
+
+            $.ajax({
+                url: 'http://localhost:64618/api/clientes',
+                type: 'GET',
+                dataType: 'json',
+                success: function(result, status, xhr) {
+                    let html = '';
+                    for (let item of result.data) {
+                        html += '<tr>';
+                        html += '<td>' + item.rut + '</td>';
+                        html += '<td>' + item.nombre + '</td>';
+                        html += '<td>' + item.mail + '</td>';
+                        html += '<td>' + item.direccion + '</td>';
+                        html += '<td>' + item.celular + '</td>';
+                        html += '<td>' + item.estado + '</td>';
+                        html += '<td>' + item.fecha_nac + '</td>';
+                        html += '<td>' + item.clave + '</td>';
+                        html += '</tr>';
+                    }
+
+                    $('#listaCliente').html(html);
+                },
+                error: function(xhr, status) {
+                    console.log('fallo la solicitud');
+                }
+            })
+
+        }
+
+        function validarB() {
+            var RutB = $("#RuB").val();
+            if (RutB === "") {
+                getCliente();
+            }
+        }
+
+
+        function BuscarCliente() {
+
+
+            var rut = document.getElementById("RutB").value;
+
+            if (rut !== "") {
+                $.ajax({
+                    url: 'http://localhost:64618/api/cliente?rut=' + rut + '',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(result, status, xhr) {
+                        let html = '';
+                        console.log(result);
+
+                        if (result.data !== null) {
+                            html += '<tr>';
+                            html += '<td>' + result.data.rut + '</td>';
+                            html += '<td>' + result.data.nombre + '</td>';
+                            html += '<td>' + result.data.mail + '</td>';
+                            html += '<td>' + result.data.direccion + '</td>';
+                            html += '<td>' + result.data.celular + '</td>';
+                            html += '<td>' + result.data.estado + '</td>';
+                            html += '<td>' + result.data.fecha_nac + '</td>';
+                            html += '<td>' + result.data.clave + '</td>';
+                            html += '</tr>';
+                            $('#listaCliente').html(html);
+                        } else {
+                            alert("Datos no encontrados");
+
+                        }
+
+
+                    },
+                    error: function(xhr, status) {
+                        console.log('falló la solicitud');
+                    }
+                })
+            } else {
+                $(document).ready(function() {
+                    getCliente();
+                    alert("Debe ingresar un Rut para realizar la búsqueda");
+
+
+
+                });
+            }
+
+
+
+        }
+    </script>
+</body>
+
+</html>
