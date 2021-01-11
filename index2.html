@@ -144,7 +144,7 @@
                     </div>
                     <div id="respuesta"></div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-light" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-light" data-dismiss="modal" onclick="limpiar();">Cancelar</button>
                         <button type="submit" id="btnGuardar" class="btn btn-primary">Guardar</button>
                     </div>
 
@@ -179,6 +179,18 @@
             $('#RutB').rutB();
 
         });
+
+        function limpiar() {
+            document.getElementById("Rut").value = "";
+            document.getElementById("Nombre").value = "";
+            document.getElementById("Mail").value = "";
+            document.getElementById("Direccion").value = "";
+            document.getElementById("Celular").value = "";
+            document.getElementById("Estado").value = "";
+            document.getElementById("Fecha").value = "";
+            document.getElementById("Clave").value = "";
+            document.getElementById("Clave2").value = "";
+        }
 
         function validarTelefono(parametro) {
             var patron = /^(\+?56)?(\s?)(0?9)(\s?)[9876543]\d{7}$/;
