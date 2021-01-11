@@ -488,12 +488,6 @@
 
         }
 
-        function validarB() {
-            var RutB = $("#RuB").val();
-            if (RutB === "") {
-                getCliente();
-            }
-        }
 
         //Función para buscar clientes mediante el RUT
         function BuscarCliente() {
@@ -510,7 +504,7 @@
                         let html = '';
                         console.log(result);
 
-                        if (result.data !== null) {
+                        if (result.data.rut !== null) {
                             html += '<tr>';
                             html += '<td>' + result.data.rut + '</td>';
                             html += '<td>' + result.data.nombre + '</td>';
@@ -523,7 +517,8 @@
                             html += '</tr>';
                             $('#listaCliente').html(html);
                         } else {
-                            alert("Datos no encontrados");
+                            alert("No se encontró ningún cliente asociado a ese rut");
+                            getCliente();
 
                         }
 
