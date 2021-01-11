@@ -264,37 +264,39 @@
 
             } else if (Clave != Clave2) {
                 $("#invCI2").show();
+                $("invC2").hide();
                 $("#Clave2").focus();
                 return false;
             }
 
+            verificarRut();
 
+            /* $.ajax({
+                 url: 'http://localhost:64618/api/cliente',
+                 method: "POST",
+                 data: {
+                     "rut": Rut,
+                     "nombre": Nombre,
+                     "mail": Mail,
+                     "direccion": Direccion,
+                     "celular": Celular,
+                     "estado": Estado,
+                     "fecha_nac": Fecha_nac,
+                     "clave": Clave
+                 },
+                 success: function(response) {
+                     $("#miModal").modal('hide');
+                     $("#formCliente").trigger('reset');
+                     alert("Datos ingresados Correctamente!!!");
+                     getCliente();
 
-            $.ajax({
-                url: 'http://localhost:64618/api/cliente',
-                method: "POST",
-                data: {
-                    "rut": Rut,
-                    "nombre": Nombre,
-                    "mail": Mail,
-                    "direccion": Direccion,
-                    "celular": Celular,
-                    "estado": Estado,
-                    "fecha_nac": Fecha_nac,
-                    "clave": Clave
-                },
-                success: function(response) {
-                    $("#miModal").modal('hide');
-                    $("#formCliente").trigger('reset');
-                    alert("Datos ingresados Correctamente!!!");
-                    getCliente();
-
-                },
-                error: function(xhr, status) {
-                    alert("Datos no guardados");
-                    console.log('falló la solicitud');
-                }
-            })
+                 },
+                 error: function(xhr, status) {
+                     alert("Datos no guardados");
+                     console.log('falló la solicitud');
+                 }
+             })
+             */
         });
 
 
@@ -342,6 +344,8 @@
             })
         }
 
+
+        //Función para ingresar un cliente
         function insertarCliente() {
             var Rut = $("#Rut").val();
             var Nombre = $("#Nombre").val();
@@ -382,7 +386,78 @@
             })
         }
 
+        //Función que busca y verfica en la base de datos si el run ingresado se encuentra almacenado, si la consulta retorna null se realiza el registro si es distinta a null arroja un mensaje.
+        function verificarRut() {
+            var rut = document.getElementById("Rut").value;
 
+            if (rut !== "") {
+                $.ajax({
+                    url: 'http://localhost:64618/api/cliente?rut=' + rut + '',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(result, status, xhr) {
+                        let html = '';
+                        console.log(result);
+
+                        if (result.data.rut !== null) {
+                            alert("Ya existe un cliente con el run ingresado");
+                        } else {
+                            var Rut = $("#Rut").val();
+                            var Nombre = $("#Nombre").val();
+                            var Mail = $("#Mail").val();
+                            var Direccion = $("#Direccion").val();
+                            var Celular = $("#Celular").val();
+                            var Estado = $("#Estado").val();
+                            var Fecha_nac = $("#Fecha").val();
+                            var Clave = $("#Clave").val();
+
+
+                            $.ajax({
+                                url: 'http://localhost:64618/api/cliente',
+                                method: "POST",
+                                data: {
+                                    "rut": Rut,
+                                    "nombre": Nombre,
+                                    "mail": Mail,
+                                    "direccion": Direccion,
+                                    "celular": Celular,
+                                    "estado": Estado,
+                                    "fecha_nac": Fecha_nac,
+                                    "clave": Clave
+                                },
+                                success: function(response) {
+                                    $("#miModal").modal('hide');
+                                    $("#formCliente").trigger('reset');
+                                    alert("Datos ingresados Correctamente!!!");
+                                    getCliente();
+
+                                },
+                                error: function(xhr, status) {
+                                    alert("Datos no guardados");
+                                    console.log('falló la solicitud');
+                                }
+                            })
+
+                        }
+
+
+                    },
+                    error: function(xhr, status) {
+                        console.log('falló la solicitud');
+                    }
+                })
+            } else {
+                $(document).ready(function() {
+                    getCliente();
+                    alert("Debe ingresar un Rut para realizar la búsqueda");
+
+
+
+                });
+            }
+        }
+
+        //Funcion Para obtener la lista de los clientes
         function getCliente() {
 
             $.ajax({
@@ -420,7 +495,7 @@
             }
         }
 
-
+        //Función para buscar clientes mediante el RUT
         function BuscarCliente() {
 
 
