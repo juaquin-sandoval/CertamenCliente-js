@@ -220,64 +220,123 @@
 
 
             //Validación de input vacios
+            if (Rut !== '') {
+                $("#invRut").hide();
+                $("#valRut").show();
+
+            }
+            if (Nombre !== '') {
+                $("#invNombre").hide();
+                $("#valNombre").show();
+            }
+            if (Mail !== '' && expr.test(Mail)) {
+                $("#invMail").hide();
+                $("#invMail2").hide();
+                $("#valMail").show();
+            }
+            if (Direccion !== '') {
+                $("#invDirec").hide();
+                $("#valDirec").show();
+            }
+            if (Celular !== '' && validarTelefono(Celular) == true) {
+                $("#invCel").hide();
+                $("#invCel2").hide();
+                $("#valCel").show();
+            }
+            if (Estado !== '') {
+                $("#invEstado").hide();
+                $("#valEstado").show();
+            }
+            if (Fecha_nac !== '') {
+                $("#invFecha").hide();
+                $("#valFecha").show();
+            }
+            if (Clave !== '') {
+                $("#invClave").hide();
+                $("#valClave").show();
+            }
+
+            if (Clave2 !== '' && Clave === Clave2) {
+
+                $("#invCI2").hide();
+                $("#valC2").show();
+
+            }
+
+
 
             if (Rut == '') {
-                $("#invC2").show();
+                $("#valRut").hide();
+                $("#invRut").show();
                 $("#Rut").focus();
                 return false;
             } else if (Nombre == '') {
+                $("#valNombre").hide();
                 $("#invNombre").show();
                 $("#Nombre").focus();
                 return false;
             } else if (Mail == '') {
+                $("#valMail").hide();
                 $("#invMail").show();
                 $("#invMail2").hide();
                 $("#Mail").focus();
                 return false;
             } else if (!expr.test(Mail)) {
+                $("#valMail").hide();
                 $("#invMail").hide();
                 $("#invMail2").show();
                 $("#Mail").focus();
                 return false;
 
             } else if (Direccion == '') {
+                $("#valDirec").hide();
                 $("#invDirec").show();
                 $("#Direccion").focus();
                 return false;
 
             } else if (Celular == '') {
+                $("#valCel").hide();
+                $("#invCel2").hide();
                 $("#invCel").show();
                 $("#Celular").focus();
                 return false;
 
             } else if (validarTelefono(Celular) == false) {
+                $("#valCel").hide();
+                $("#invCel").hide();
                 $("#invCel2").show();
                 $("#Celular").focus();
                 return false;
 
             } else if (Estado == '') {
+                $("#valEstado").hide();
                 $("#invEstado").show();
                 $("#Estado").focus();
                 return false;
 
             } else if (Fecha_nac == '') {
+                $("#valFecha").hide();
                 $("#invFecha").show();
                 $("#Fecha").focus();
                 return false;
 
             } else if (Clave == '') {
+                $("#valClave").hide();
                 $("#invClave").show();
                 $("#Clave").focus();
                 return false;
 
             } else if (Clave2 == '') {
+                $("#invCI2").hide();
+                $("#valClave2").hide();
                 $("#invC2").show();
                 $("#Clave2").focus();
                 return false;
 
-            } else if (Clave != Clave2) {
+            } else if (Clave !== Clave2 && Clave2 !== '') {
+                $("#valClave2").hide();
                 $("#invCI2").show();
-                $("invC2").hide();
+                $("#invC2").hide();
                 $("#Clave2").focus();
                 return false;
             }
