@@ -83,7 +83,7 @@
                         </div>
                         <div class="form-group">
                             <label for="Nombre" class="col-form-label">Nombre:</label>
-                            <input type="text" class="form-control" id="Nombre" maxlength="150" required>
+                            <input type="text" class="form-control" id="Nombre" maxlength="150" onchange="validar(event)" required>
                             <div class="valid-feedback" id="valNombre">¡Ok válido!</div>
                             <div class="invalid-feedback" id="invNombre">Complete el campo.</div>
                         </div>
@@ -191,6 +191,28 @@
             document.getElementById("Fecha").value = "";
             document.getElementById("Clave").value = "";
             document.getElementById("Clave2").value = "";
+            //Validación Positiva
+            $("#valRut").hide();
+            $("#valNombre").hide();
+            $("#valMail").hide();
+            $("#valDirec").hide();
+            $("#valCel").hide();
+            $("#valEstado").hide();
+            $("#valFecha").hide();
+            $("#valClave").hide();
+            $("#valC2").hide();
+            //Validación Negativa
+            $("#invRut").hide();
+            $("#invNombre").hide();
+            $("#invMail").hide();
+            $("#invDirec").hide();
+            $("#invCel").hide();
+            $("#invEstado").hide();
+            $("#invFecha").hide();
+            $("#invClave").hide();
+            $("#invC2").hide();
+
+
         }
 
         function validarTelefono(parametro) {
@@ -198,6 +220,15 @@
             if (!patron.test(parametro)) {
                 return false;
 
+            } else {
+                return true;
+            }
+        }
+
+        function validarEspacios(parametro) {
+            var patronC = /^\s+$/;
+            if (patronC.test(parametro)) {
+                return false;
             } else {
                 return true;
             }
@@ -215,6 +246,7 @@
             var Fecha_nac = $("#Fecha").val();
             var Clave = $("#Clave").val();
             var Clave2 = $("#Clave2").val();
+            var expRegNombre = /^[a-zA-ZÑñÁáÉéÍíÓóÚúÜü\s]+$/;
             var expr = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
 
@@ -270,7 +302,7 @@
                 $("#invRut").show();
                 $("#Rut").focus();
                 return false;
-            } else if (Nombre == '') {
+            } else if (Nombre == '' || !expRegNombre.test(Nombre) || validarEspacios(Nombre) == false) {
                 $("#valNombre").hide();
                 $("#invNombre").show();
                 $("#Nombre").focus();
@@ -288,7 +320,7 @@
                 $("#Mail").focus();
                 return false;
 
-            } else if (Direccion == '') {
+            } else if (Direccion == '' || validarEspacios(Direccion) == false) {
                 $("#valDirec").hide();
                 $("#invDirec").show();
                 $("#Direccion").focus();
