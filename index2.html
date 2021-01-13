@@ -83,7 +83,7 @@
                         </div>
                         <div class="form-group">
                             <label for="Nombre" class="col-form-label">Nombre:</label>
-                            <input type="text" class="form-control" id="Nombre" maxlength="150" onchange="validar(event)" required>
+                            <input type="text" class="form-control" id="Nombre" maxlength="150" required>
                             <div class="valid-feedback" id="valNombre">¡Ok válido!</div>
                             <div class="invalid-feedback" id="invNombre">Complete el campo.</div>
                         </div>
@@ -179,7 +179,11 @@
             //buscarTR();
             $('#RutB').rutB();
 
+
+
         });
+
+
 
         function limpiar() {
             document.getElementById("Rut").value = "";
@@ -215,6 +219,21 @@
 
         }
 
+        function validarFecha(ParametroF) {
+            var inicio = new Date();
+            ParametroF = document.getElementById('Fecha').value;
+            inicio = new Date(inicio);
+            finalq = new Date(ParametroF);
+            if (inicio < finalq) {
+                return false;
+            } else {
+                return true;
+            }
+
+        }
+
+
+
         function validarTelefono(parametro) {
             var patron = /^(\+?56)?(\s?)(0?9)(\s?)[9876543]\d{7}$/;
             if (!patron.test(parametro)) {
@@ -224,6 +243,7 @@
                 return true;
             }
         }
+
 
         function validarEspacios(parametro) {
             var patronC = /^\s+$/;
@@ -346,7 +366,7 @@
                 $("#Estado").focus();
                 return false;
 
-            } else if (Fecha_nac == '') {
+            } else if (Fecha_nac == '' || validarFecha(Fecha_nac) == false) {
                 $("#valFecha").hide();
                 $("#invFecha").show();
                 $("#Fecha").focus();
