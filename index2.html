@@ -24,7 +24,7 @@
     </header>
 
 
-    <div class="container">
+    <div class="container-fluid">
 
         <div class="card shadow">
             <div class="card-header py-3">
@@ -50,6 +50,7 @@
                                 <th>Estado Civil</th>
                                 <th>Fecha de Nacimiento</th>
                                 <th>Contraseña</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="listaCliente">
@@ -167,6 +168,7 @@
     <script src="rut.js"></script>
     <script src="rutB.js"></script>
     <script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
+    <script src="codigo.js"></script>
 
 
 
@@ -176,8 +178,8 @@
         $(document).ready(function() {
             $('.Rut').rut();
             getCliente();
-            //buscarTR();
-            $('#RutB').rutB();
+            buscarTR();
+            //$('#RutB').rutB();
 
 
 
@@ -600,6 +602,7 @@
                         html += '<td>' + item.estado + '</td>';
                         html += '<td>' + item.fecha_nac + '</td>';
                         html += '<td>' + item.clave + '</td>';
+                        html += '<td><button class="btn btn-warning btn-sm">Modificar </button><button class="btn btn-danger btn-sm ml-1" data-id="' + item.rut + '" onclick="Eliminar(this);">Eliminar</button></td>';
                         html += '</tr>';
                     }
 
@@ -607,6 +610,27 @@
                 },
                 error: function(xhr, status) {
                     console.log('fallo la solicitud');
+                }
+            })
+
+        }
+
+        //Función eliminar
+        function Eliminar(Cliente) {
+
+            let rut = Cliente.getAttribute('data-id');
+            $.ajax({
+                url: 'http://localhost:64618/api/eliminar?rut=' + rut + '',
+                type: 'GET',
+                dataType: 'json',
+                success: function(result, status, xhr) {
+
+                    alert("Se eliminó el cliente correctamente");
+                    getCliente();
+
+                },
+                error: function(xhr, status) {
+                    console.log('falló la solicitud');
                 }
             })
 
